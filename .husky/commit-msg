@@ -1,0 +1,11 @@
+#!/bin/sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+message="$(cat $1)"
+commit_regex='^\[T20-[0-9]+\] .+'
+error_msg="Invalid commit message format. Please use: [T20-123] commit message."
+
+if ! echo "$message" | grep -Eq "$commit_regex"; then
+echo "$error_msg" >&2
+exit 1
+fi
