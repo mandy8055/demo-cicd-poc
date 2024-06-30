@@ -1,5 +1,7 @@
 # React + TypeScript + Vite
 
+[![CI/CD Pipeline](https://github.com/mandy8055/demo-cicd-poc/actions/workflows/workflow.yaml/badge.svg)](https://github.com/mandy8055/demo-cicd-poc/actions/workflows/workflow.yaml)
+
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
 Currently, two official plugins are available:
@@ -22,7 +24,7 @@ export default {
     project: ['./tsconfig.json', './tsconfig.node.json'],
     tsconfigRootDir: __dirname,
   },
-}
+};
 ```
 
 - Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
