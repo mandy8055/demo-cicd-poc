@@ -1,0 +1,49 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: self-hosted
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+        with:
+          token: ${{ secrets.SECOND_POC_TOKEN }}
+
+      - name: Verify remote URL
+        run: git remote -v
+
+      - name: Setup Node.js environment
+        uses: actions/setup-node@v2.4.1
+        with:
+          node-version: '18.20.2'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run tests
+        run: npm test
+
+      - name: Build project
+        run: npm run build
+
+      - name: Tag build
+        run: git tag -a v1.0 -m "my version 1.0"
+
+      - name: Push tags
+        env:
+          GITHUB_TOKEN: ${{ secrets.SECOND_POC_TOKEN }}
+        run: |
+          git remote set-url origin https://x-access-token:${GITHUB_TOKEN}@github.com/mandy8055/demo-cicd-poc.git
+          git push origin --tags
+
+      - name: Upload build artifacts to Azure Storage
+        uses: azure/CLI@v1
+        with:
+          inlineScript: |
+            az storage blob upload-batch --account-name storagetp2 --source ./dist --destination 'ui-tp2'
+          azcliversion: 2.0.72
