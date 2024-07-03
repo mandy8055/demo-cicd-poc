@@ -31,7 +31,7 @@ jobs:
       - name: Build project
         run: npm run build
 
-      - name: Get the current tag
+        - name: Get the current tag
         id: get_tag
         shell: powershell
         run: |
@@ -43,17 +43,26 @@ jobs:
         id: bump_version
         shell: powershell
         run: |
-          $current_tag = '${{ steps.get_tag.outputs.tag }}'
-          if (-not $current_tag) {
-            $new_tag = "v1.0.0"
-          } else {
-            $version_parts = $current_tag.TrimStart('v').Split('.')
-            $major = [int]$version_parts[0]
-            $minor = [int]$version_parts[1]
-            $patch = [int]$version_parts[2]
-            $patch++
-            $new_tag = "v$major.$minor.$patch"
+          function Increment-Version {
+              param(
+                  [string]$version
+              )
+              $version_parts = $version.TrimStart('v').Split('.')
+              $major = [int]$version_parts[0]
+              $minor = [int]$version_parts[1]
+              $patch = [int]$version_parts[2]
+              $patch++
+              return "v$major.$minor.$patch"
           }
+
+          $current_tag = '${{ steps.get_tag.outputs.tag }}'
+          $new_tag = Increment-Version -version $current_tag
+
+          # Ensure the new tag does not already exist
+          while (git tag --list | Select-String -Pattern $new_tag) {
+              $new_tag = Increment-Version -version $new_tag
+          }
+
           echo "New tag: $new_tag"
           echo "::set-output name=new_tag::$new_tag"
 
