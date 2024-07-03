@@ -86,4 +86,4 @@ jobs:
             az login --identity
             az storage blob upload-batch --account-name storagetp2 --source ./dist --destination 'ui-tp2'
           azcliversion: 2.0.72
-        working-directory: _work/demo-cicd-poc/demo-cicd-poc
+          working-directory: _work/demo-cicd-poc/demo-cicd-poc
