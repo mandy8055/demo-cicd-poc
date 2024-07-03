@@ -31,10 +31,37 @@ jobs:
       - name: Build project
         run: npm run build
 
+      - name: Get the current tag
+        id: get_tag
+        shell: powershell
+        run: |
+          $tag = git describe --tags (git rev-list --tags --max-count=1)
+          echo "::set-output name=tag::$tag"
+
+      - name: Bump version
+        id: bump_version
+        shell: powershell
+        run: |
+          $current_tag = '${{ steps.get_tag.outputs.tag }}'
+          if (-not $current_tag) {
+            $new_tag = "v1.0.0"
+          } else {
+            $version_parts = $current_tag.TrimStart('v').Split('.')
+            $major = [int]$version_parts[0]
+            $minor = [int]$version_parts[1]
+            $patch = [int]$version_parts[2]
+            $patch++
+            $new_tag = "v$major.$minor.$patch"
+          }
+          echo "New tag: $new_tag"
+          echo "::set-output name=new_tag::$new_tag"
+
       - name: Tag build
-        run: git tag -a v2.0 -m "my version 2.0"
+        shell: powershell
+        run: git tag -a ${{ steps.bump_version.outputs.new_tag }} -m "Version ${{ steps.bump_version.outputs.new_tag }}"
 
       - name: Push tags
+        shell: powershell
         env:
           GITHUB_TOKEN: ${{ secrets.SECOND_POC_TOKEN }}
         run: |
