@@ -83,5 +83,6 @@ jobs:
         uses: azure/CLI@v1
         with:
           inlineScript: |
+            az login --identity
             az storage blob upload-batch --account-name storagetp2 --source ./dist --destination 'ui-tp2'
           azcliversion: 2.0.72
