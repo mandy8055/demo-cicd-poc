@@ -69,9 +69,9 @@ jobs:
           git remote set-url origin https://x-access-token:${GITHUB_TOKEN}@github.com/mandy8055/demo-cicd-poc.git
           git push origin --tags
 
-      # - name: Upload build artifacts to Azure Storage
-      #   uses: azure/CLI@v1
-      #   with:
-      #     inlineScript: |
-      #       az storage blob upload-batch --account-name storagetp2 --source ./dist --destination 'ui-tp2'
-      #     azcliversion: 2.0.72
+      - name: Upload build artifacts to Azure Storage
+        uses: azure/CLI@v1
+        with:
+          inlineScript: |
+            az storage blob upload-batch --account-name storagetp2 --source ./dist --destination 'ui-tp2'
+          azcliversion: 2.0.72
