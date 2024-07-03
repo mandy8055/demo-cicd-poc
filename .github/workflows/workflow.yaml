@@ -35,7 +35,8 @@ jobs:
         id: get_tag
         shell: powershell
         run: |
-          $tag = git describe --tags (git rev-list --tags --max-count=1)
+          $tag = git tag --list --sort=-v:refname | Select-Object -First 1
+          if (-not $tag) { $tag = "v0.0.0" }
           echo "::set-output name=tag::$tag"
 
       - name: Bump version
