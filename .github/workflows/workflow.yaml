@@ -88,9 +88,13 @@ jobs:
           git remote set-url origin https://x-access-token:${GITHUB_TOKEN}@github.com/mandy8055/demo-cicd-poc.git
           git push origin --tags
 
+      - name: Set Release Version
+        id: set_version
+        run: echo "RELEASE_VERSION=v$(date +'%Y%m%d%H%M%S')" >> $GITHUB_ENV
+
       - name: Upload build artifacts to Azure Storage
         run: |
           cd C:\Users\azureuser-manuj\actions-runner-poc\_work\demo-cicd-poc\demo-cicd-poc
           az login --identity
-          az storage blob upload-batch --account-name storagetp2 --source ./dist --destination 'ui-tp2'
+          az storage blob upload-batch --account-name storagetp2 --source _temp/dist --destination 'ui-tp2/${{ env.RELEASE_VERSION }}'
         # shell: pwsh
