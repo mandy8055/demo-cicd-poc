@@ -9,11 +9,10 @@ function Increment-Version {
     $patch++
     return "v$major.$minor.$patch"
 }
+
 git fetch --tags
 $current_tag = git describe --tags $(git rev-list --tags --max-count=1)
-Write-Output "Current tag: $current_tag"
 if (-not $current_tag) { $current_tag = "v0.0.0" }
-Write-Output "Current tag on line 16: $current_tag"
 
 $new_tag = Increment-Version -version $current_tag
 
