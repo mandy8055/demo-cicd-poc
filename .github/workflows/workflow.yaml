@@ -13,6 +13,8 @@ jobs:
         uses: actions/checkout@v2
         with:
           token: ${{ secrets.SECOND_POC_TOKEN }}
+      - name: Print working directory after checkout
+        run: pwd
 
       - name: Verify remote URL
         run: git remote -v
@@ -32,6 +34,12 @@ jobs:
         run: |
           npm run build
           mv dist ../../_temp/
+
+      - name: Print working directory
+        run: pwd
+
+      - name: Print contents
+        run: dir
 
       - name: Get the current tag
         id: get_tag
