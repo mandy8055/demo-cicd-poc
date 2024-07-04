@@ -90,7 +90,9 @@ jobs:
 
       - name: Set Release Version
         id: set_version
-        run: echo "RELEASE_VERSION=v$(date +'%Y%m%d%H%M%S')" >> $GITHUB_ENV
+        run: |
+          $releaseVersion = "v" + (Get-Date -Format "yyyyMMddHHmmss")
+          echo "RELEASE_VERSION=$releaseVersion" >> $env:GITHUB_ENV
 
       - name: Upload build artifacts to Azure Storage
         run: |
