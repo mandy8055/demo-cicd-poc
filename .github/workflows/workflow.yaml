@@ -43,4 +43,4 @@ jobs:
       - name: Upload build artifacts to Azure Storage
         run: |
           az login --identity >$null 2>&1
-          az storage blob upload-batch --account-name storagetp2 --source ./dist --destination 'ui-tp2/${{ env.RELEASE_VERSION }}' --auth-mode login
+          az storage blob upload-batch --account-name storagetp2 --source ./dist --destination 'ui-tp2/${{ env.RELEASE_VERSION }}'
