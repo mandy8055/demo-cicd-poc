@@ -30,7 +30,7 @@ jobs:
           npm run build
 
       - name: Version bump and tag
-        run: pwsh scripts/version_bump.ps1
+        run: .\scripts\version_bump.ps1
         env:
           GITHUB_TOKEN: ${{ secrets.SECOND_POC_TOKEN }}
 
