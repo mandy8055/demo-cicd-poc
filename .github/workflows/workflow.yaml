@@ -33,7 +33,6 @@ jobs:
       - name: Build project
         run: |
           npm run build
-          mv dist ../../_temp/
 
       - name: Print working directory
         run: pwd
@@ -93,6 +92,7 @@ jobs:
         uses: azure/CLI@v1
         with:
           inlineScript: |
+            cd C:\Users\azureuser-manuj\actions-runner-poc\_work\demo-cicd-poc\demo-cicd-poc
             az login --identity
             az storage blob upload-batch --account-name storagetp2 --source ./dist --destination 'ui-tp2'
           azcliversion: 2.0.72
