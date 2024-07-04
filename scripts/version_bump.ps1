@@ -11,7 +11,9 @@ function Increment-Version {
 }
 
 $current_tag = git tag --list --sort=-v:refname | Select-Object -First 1
+Write-Output "Current tag: $current_tag"
 if (-not $current_tag) { $current_tag = "v0.0.0" }
+Write-Output "Current tag on line 16: $current_tag"
 
 $new_tag = Increment-Version -version $current_tag
 
