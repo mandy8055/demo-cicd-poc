@@ -9,7 +9,7 @@ function Increment-Version {
     $patch++
     return "v$major.$minor.$patch"
 }
-
+git fetch --tags
 # $current_tag = git tag --list --sort=-v:refname | Select-Object -First 1
 pwd
 $current_tag = git describe --tags $(git rev-list --tags --max-count=1)
