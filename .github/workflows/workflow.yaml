@@ -42,6 +42,5 @@ jobs:
 
       - name: Upload build artifacts to Azure Storage
         run: |
-          cd C:\Users\azureuser-manuj\actions-runner-poc\_work\demo-cicd-poc\demo-cicd-poc
           az login --identity
           az storage blob upload-batch --account-name storagetp2 --source ./dist --destination 'ui-tp2/${{ env.RELEASE_VERSION }}'
