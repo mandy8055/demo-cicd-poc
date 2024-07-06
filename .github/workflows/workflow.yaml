@@ -36,10 +36,6 @@ jobs:
       - name: Run tests
         run: npm test
 
-      - name: Build project
-        run: |
-          npm run build
-
       - name: Version bump and tag
         run: .\scripts\version_bump.ps1
         env:
@@ -51,6 +47,12 @@ jobs:
         run: |
           $releaseVersion = "v" + (Get-Date -Format "yyyyMMddHHmmss")
           echo "RELEASE_VERSION=$releaseVersion" >> $env:GITHUB_ENV
+
+      - name: Build project
+        run: |
+          npm run build
+        env:
+          BASE_URL: 'https://sample-tp2-e6hkfrafhqedc2e6.a02.azurefd.net/ui-tp2/${{ env.RELEASE_VERSION }}/'
 
       - name: Upload build artifacts to Azure Storage
         run: |
