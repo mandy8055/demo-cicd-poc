@@ -4,6 +4,17 @@ on:
   push:
     branches:
       - main
+  workflow_dispatch:
+    inputs:
+      versionType:
+        description: 'Type of version bump (major, minor, patch)'
+        required: true
+        default: 'patch'
+        type: choice
+        options:
+          - major
+          - minor
+          - patch
 
 jobs:
   build:
@@ -33,6 +44,7 @@ jobs:
         run: .\scripts\version_bump.ps1
         env:
           GITHUB_TOKEN: ${{ secrets.SECOND_POC_TOKEN }}
+          VERSION_TYPE: ${{ github.event.inputs.versionType }}
 
       - name: Set Release Version for tagging artefact
         id: set_version
